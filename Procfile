@@ -1,1 +1,1 @@
-web: java -jar target/helloworld.jar --port 80
+web: java -jar target/*.jar --port 80
