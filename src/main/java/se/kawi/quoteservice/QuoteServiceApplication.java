@@ -6,13 +6,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-//public class QuoteServiceApplication extends SpringBootServletInitializer {
-public class QuoteServiceApplication {
+public class QuoteServiceApplication extends SpringBootServletInitializer {
 
-//	@Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//        return application.sources(QuoteServiceApplication.class);
-//    }
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(QuoteServiceApplication.class);
+    }
 	
 	public static void main(String[] args) {
 		SpringApplication.run(QuoteServiceApplication.class, args);
