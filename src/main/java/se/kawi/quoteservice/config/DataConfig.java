@@ -28,7 +28,7 @@ public class DataConfig {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.jdbc.Driver");
 		config.setJdbcUrl("jdbc:mysql://localhost:3306/quoteservicedb?useSSL=false");
-		config.setUsername("user");
+		config.setUsername("rkd3j");
 		config.setPassword("password");
 
 		return new HikariDataSource(config);
