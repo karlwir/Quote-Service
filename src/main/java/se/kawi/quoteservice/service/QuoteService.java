@@ -1,5 +1,7 @@
 package se.kawi.quoteservice.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,5 +15,8 @@ public class QuoteService extends BaseService<Quote, QuoteRepository> {
 	public QuoteService(QuoteRepository quoteRepository, ServiceTransaction serviceTransaction) {
 		super(quoteRepository, serviceTransaction);
 	}
-	
+
+	public List<Quote> query(int page, int size, String sort, String content) throws ServiceException {
+		return execute(() -> repository.query(createPageRequest(page, size, sort), content)).getContent();
+	}
 }

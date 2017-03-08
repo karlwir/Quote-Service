@@ -19,47 +19,42 @@ import org.springframework.stereotype.Component;
 
 import se.kawi.quoteservice.model.Author;
 import se.kawi.quoteservice.service.AuthorService;
-import se.kawi.quoteservice.service.ServiceException;
-
 
 @Component
 @Path("/authors")
 @Produces({ MediaType.APPLICATION_JSON + "; charset=UTF-8", MediaType.APPLICATION_XML + "; charset=UTF-8" })
+@Consumes({ MediaType.APPLICATION_JSON + "; charset=UTF-8", MediaType.APPLICATION_XML + "; charset=UTF-8" })
 public class AuthorResource extends BaseResource<Author, AuthorService> {
 
 	protected AuthorResource(AuthorService authorService) {
 		super(authorService);
 	}
+	
+	@POST
+	public Response save(@Valid Author author) {
+		return super.save(author);
+	}
 
 	@GET
 	@Path("/{id}")
-	public Response byId(@PathParam("id") Long id) {
+	public Response getAuthor(@PathParam("id") Long id) {
 		return super.byId(id);
 	}
 	
 	@GET
-	public Response all(@BeanParam PagingQueryBean pageingQuery) {
-		return super.all(pageingQuery);
-	}
-			
-	@POST
-	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response save(@Valid Author author) {
-		return super.save(author);
-	}
-	
-	
-	@GET
-	@Path("list")
-	public List<Author> xmltest1() throws ServiceException {
-		return service.getAll(0, 10, "asc");
+	public Response getAuthors(@BeanParam AuthorQueryBean authorQuery) {
+		List<Author> entities = serviceRequest(() -> service.query(authorQuery.getPage(), 
+																   authorQuery.getSize(), 
+																   authorQuery.getSort(), 
+																   authorQuery.getFirstname(), 
+																   authorQuery.getLastname()));
+		
+		return Response.ok().entity(wrap(entities)).build();
 	}
 	
-	@GET
-	@Path("response")
-	public Response xmltest2() throws ServiceException {
-	    GenericEntity<List<Author>> entity = new GenericEntity<List<Author>>(service.getAll(0, 10, "asc")) {};
-		return Response.ok(entity).build();
+	private GenericEntity<List<Author>> wrap(List<Author> entities) {
+		GenericEntity<List<Author>> entity = new GenericEntity<List<Author>>(entities) {};
+		return entity;
 	}
 
 }

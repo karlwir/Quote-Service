@@ -1,7 +1,5 @@
 package se.kawi.quoteservice.service;
 
-import java.util.List;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,11 +43,6 @@ public abstract class BaseService<E extends AbstractEntity, R extends PagingAndS
 	public E getById(Long id) throws ServiceException {
 		return execute(() -> repository.findOne(id));
 	}
-	
-	public List<E> getAll(int page, int size, String sort) throws ServiceException {
-		return execute(() -> repository.findAll(createPageRequest(page, size, sort))).getContent();
-	}
-	
 	
 	protected Pageable createPageRequest(int page, int size, String sort) {
 		if(sort.equals("desc")) {
