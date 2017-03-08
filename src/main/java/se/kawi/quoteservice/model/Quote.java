@@ -2,13 +2,16 @@ package se.kawi.quoteservice.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+@XmlRootElement
 @Entity
 public final class Quote extends AbstractEntity {
 
 	@Column
-	@NotNull
+	@NotEmpty
 	private String content;
 	
 	protected Quote(){}

@@ -1,4 +1,4 @@
-package se.kawi.quoteservice.webapi;
+package se.kawi.quoteservice.resource;
 
 import se.kawi.quoteservice.service.ServiceException;
 
