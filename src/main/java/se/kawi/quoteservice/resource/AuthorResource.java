@@ -44,10 +44,10 @@ public class AuthorResource extends BaseResource<Author, AuthorService> {
 	@GET
 	public Response getAuthors(@BeanParam AuthorQueryBean authorQuery) {
 		List<Author> entities = serviceRequest(() -> service.query(authorQuery.getPage(), 
-																   authorQuery.getSize(), 
-																   authorQuery.getSort(), 
-																   authorQuery.getFirstname(), 
-																   authorQuery.getLastname()));
+									   authorQuery.getSize(), 
+									   authorQuery.getSort(), 
+									   authorQuery.getFirstname(), 
+									   authorQuery.getLastname()));
 		
 		return Response.ok().entity(wrap(entities)).build();
 	}
