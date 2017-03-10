@@ -14,32 +14,50 @@ import se.kawi.quoteservice.service.ServiceException;
 abstract class BaseResource<E extends AbstractEntity, S extends BaseService<E, ?>> {
 
 	protected final S service;
-	
+
 	@Context
 	protected UriInfo uriInfo;
-	
+
 	protected BaseResource(S service) {
 		this.service = service;
 	}
-	
-	protected <T> T serviceRequest(ServiceRequest<T> serviceRequest) {
+
+	protected Response serviceRequest(ServiceRequest serviceRequest) {
 		try {
-			return serviceRequest.request();			
+			return serviceRequest.request();
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			return null;
+			return Response.serverError().build();
 		}
 	}
-	
-	protected Response save(@Valid E entity){
-		E savedEntity = serviceRequest(() -> service.save(entity));
-		URI location = uriInfo.getAbsolutePathBuilder().path("{id}").resolveTemplate("id", savedEntity.getId()).build();
-		return Response.created(location).build();
+
+	protected Response create(@Valid E entity) {
+		return serviceRequest(() -> {
+			E savedEntity = service.save(entity);
+			URI location = uriInfo.getAbsolutePathBuilder().path("{id}").resolveTemplate("id", savedEntity.getId()).build();
+			return Response.created(location).build();
+		});
 	}
 
 	protected Response byId(Long id) {
-		E entity = serviceRequest(() -> service.getById(id));
-		return entity == null ? Response.status(404).build() : Response.ok(entity).build();
+		return serviceRequest(() -> {
+			E entity = service.getById(id);
+			return entity == null ? Response.status(404).build() : Response.ok(entity).build();
+		});
+	}
+
+	public Response delete(@Valid E entity) {
+		return serviceRequest(() -> {
+			service.delete(entity);
+			return Response.noContent().build();
+		});
+	}
+
+	public Response update(@Valid E entity) {
+		return serviceRequest(() -> {
+			service.save(entity);
+			return Response.noContent().build();
+		});
 	}
 
 }

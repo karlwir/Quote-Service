@@ -12,5 +12,8 @@ public interface QuoteRepository extends PagingAndSortingRepository<Quote, Long>
 
 	@Query("select q from #{#entityName} q where q.content like %:content%")
 	Page<Quote> query(Pageable createPageRequest, @Param("content")String content);
+	
+	@Query("select q from #{#entityName} q where q.content like %:content% and author_id = :authorId ")
+	Page<Quote> queryWithAuthor(Pageable createPageRequest, @Param("content")String content, @Param("authorId")String authorId);
 
 }

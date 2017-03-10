@@ -24,7 +24,7 @@ public abstract class BaseService<E extends AbstractEntity, R extends PagingAndS
 		try {
 			return action.execute();			
 		} catch (DataAccessException e) {
-			throw new ServiceException("Execute failed: " + e.getMessage());
+			throw new ServiceException("Execute failed: " + e.getMessage(), e);
 		}
 	}
 	
@@ -32,13 +32,20 @@ public abstract class BaseService<E extends AbstractEntity, R extends PagingAndS
 		try {
 			return serviceTransaction.execute(() -> action.execute());			
 		} catch (DataAccessException e) {
-			throw new ServiceException("Transaction failed: " + e.getMessage());
+			throw new ServiceException("Transaction failed: " + e.getMessage(), e);
 		}
 	}
 	
 	public E save(E entity) throws ServiceException {
 		return execute(() -> repository.save(entity));
-}
+	}
+	
+	public void delete(E entity) throws ServiceException {
+		transaction(() -> {
+			repository.delete(entity);
+			return null;
+		});
+	}
 	
 	public E getById(Long id) throws ServiceException {
 		return execute(() -> repository.findOne(id));

@@ -2,9 +2,11 @@ package se.kawi.quoteservice.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
@@ -29,10 +31,10 @@ public class AuthorResource extends BaseResource<Author, AuthorService> {
 	protected AuthorResource(AuthorService authorService) {
 		super(authorService);
 	}
-	
+
 	@POST
 	public Response save(@Valid Author author) {
-		return super.save(author);
+		return super.create(author);
 	}
 
 	@GET
@@ -40,21 +42,32 @@ public class AuthorResource extends BaseResource<Author, AuthorService> {
 	public Response getAuthor(@PathParam("id") Long id) {
 		return super.byId(id);
 	}
-	
+
 	@GET
 	public Response getAuthors(@BeanParam AuthorQueryBean authorQuery) {
-		List<Author> entities = serviceRequest(() -> service.query(authorQuery.getPage(), 
-																   authorQuery.getSize(), 
-																   authorQuery.getSort(), 
-																   authorQuery.getFirstname(), 
-																   authorQuery.getLastname()));
-		
-		return Response.ok().entity(wrap(entities)).build();
+		return serviceRequest(() -> {
+			List<Author> enteties = service.query(authorQuery.getPage(),
+												  authorQuery.getSize(),
+												  authorQuery.getSort(), 
+												  authorQuery.getFirstname(), 
+												  authorQuery.getLastname());
+			return Response.ok().entity(wrap(enteties)).build();
+		});
 	}
-	
+
+	@PUT
+	public Response update(@Valid Author author) {
+		return super.update(author);
+	}
+
+	@DELETE
+	public Response delete(@Valid Author author) {
+		return super.delete(author);
+	}
+
 	private GenericEntity<List<Author>> wrap(List<Author> entities) {
-		GenericEntity<List<Author>> entity = new GenericEntity<List<Author>>(entities) {};
-		return entity;
+		GenericEntity<List<Author>> wrappedEntity = new GenericEntity<List<Author>>(entities) {};
+		return wrappedEntity;
 	}
 
 }

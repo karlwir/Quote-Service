@@ -1,7 +1,10 @@
 package se.kawi.quoteservice.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.*;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -17,6 +20,9 @@ public class Author extends AbstractEntity {
 	@Column
 	@NotEmpty
 	private String lastname;
+	
+	@OneToMany(mappedBy = "author")
+	private List<Quote> quotes;
 	
 	protected Author(){};
 	

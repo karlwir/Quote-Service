@@ -16,7 +16,12 @@ public class QuoteService extends BaseService<Quote, QuoteRepository> {
 		super(quoteRepository, serviceTransaction);
 	}
 
-	public List<Quote> query(int page, int size, String sort, String content) throws ServiceException {
-		return execute(() -> repository.query(createPageRequest(page, size, sort), content)).getContent();
+	public List<Quote> query(int page, int size, String sort, String content, String authorId) throws ServiceException {
+		Integer parsedId = Integer.valueOf(authorId);
+		if(parsedId > 0){
+			return execute(() -> repository.queryWithAuthor(createPageRequest(page, size, sort), content, authorId)).getContent();			
+		} else {
+			return execute(() -> repository.query(createPageRequest(page, size, sort), content)).getContent();
+		}
 	}
 }
