@@ -23,41 +23,41 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaAuditing
 public class DataConfig {
 
-	@Bean
-	DataSource dataSource() {
-		HikariConfig config = new HikariConfig();
-		config.setDriverClassName("com.mysql.jdbc.Driver");
-		config.setJdbcUrl("jdbc:mysql://localhost:3306/quoteservicedb?useSSL=false");
-		config.setUsername("rkd3j");
-		config.setPassword("password");
-
-		return new HikariDataSource(config);
-	}
-	@Bean
-	JpaVendorAdapter jpaVendorAdapter() {
-		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-		adapter.setDatabase(Database.MYSQL);
-		adapter.setGenerateDdl(true);
-
-		return adapter;
-	}
-
 //	@Bean
 //	DataSource dataSource() {
-//		HikariConfig cfg = new HikariConfig();
-//		cfg.setDriverClassName("org.h2.Driver");
-//		cfg.setJdbcUrl("jdbc:h2:mem:test:;MODE=MySQL;DB_CLOSE_DELAY=-1");
-//		return new HikariDataSource(cfg);
-//	}
+//		HikariConfig config = new HikariConfig();
+//		config.setDriverClassName("com.mysql.jdbc.Driver");
+//		config.setJdbcUrl("jdbc:mysql://localhost:3306/quoteservicedb?useSSL=false");
+//		config.setUsername("rkd3j");
+//		config.setPassword("password");
 //
+//		return new HikariDataSource(config);
+//	}
 //	@Bean
 //	JpaVendorAdapter jpaVendorAdapter() {
 //		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-//		adapter.setDatabase(Database.H2);
+//		adapter.setDatabase(Database.MYSQL);
 //		adapter.setGenerateDdl(true);
 //
 //		return adapter;
 //	}
+
+	@Bean
+	DataSource dataSource() {
+		HikariConfig cfg = new HikariConfig();
+		cfg.setDriverClassName("org.h2.Driver");
+		cfg.setJdbcUrl("jdbc:h2:mem:test:;MODE=MySQL;DB_CLOSE_DELAY=-1");
+		return new HikariDataSource(cfg);
+	}
+
+	@Bean
+	JpaVendorAdapter jpaVendorAdapter() {
+		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+		adapter.setDatabase(Database.H2);
+		adapter.setGenerateDdl(true);
+
+		return adapter;
+	}
 	
 	@Bean
 	JpaTransactionManager transactionManager(EntityManagerFactory factory) {
