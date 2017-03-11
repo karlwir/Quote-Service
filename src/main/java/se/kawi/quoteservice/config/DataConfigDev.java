@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -21,44 +22,29 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaRepositories("se.kawi.quoteservice.repository")
 @EnableTransactionManagement
 @EnableJpaAuditing
-public class DataConfig {
+@Profile("dev")
+public class DataConfigDev {
 
-//	@Bean
-//	DataSource dataSource() {
-//		HikariConfig config = new HikariConfig();
-//		config.setDriverClassName("com.mysql.jdbc.Driver");
-//		config.setJdbcUrl("jdbc:mysql://localhost:3306/quoteservicedb?useSSL=false");
-//		config.setUsername("rkd3j");
-//		config.setPassword("password");
-//
-//		return new HikariDataSource(config);
-//	}
-//	@Bean
-//	JpaVendorAdapter jpaVendorAdapter() {
-//		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-//		adapter.setDatabase(Database.MYSQL);
-//		adapter.setGenerateDdl(true);
-//
-//		return adapter;
-//	}
-//
 	@Bean
 	DataSource dataSource() {
-		HikariConfig cfg = new HikariConfig();
-		cfg.setDriverClassName("org.h2.Driver");
-		cfg.setJdbcUrl("jdbc:h2:mem:test:;MODE=MySQL;DB_CLOSE_DELAY=-1");
-		return new HikariDataSource(cfg);
-	}
+		HikariConfig config = new HikariConfig();
+		config.setDriverClassName("com.mysql.jdbc.Driver");
+		config.setJdbcUrl("jdbc:mysql://localhost:3306/quoteservicedb?useSSL=false");
+		config.setUsername("rkd3j");
+		config.setPassword("password");
 
+		return new HikariDataSource(config);
+	}
+	
 	@Bean
 	JpaVendorAdapter jpaVendorAdapter() {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-		adapter.setDatabase(Database.H2);
+		adapter.setDatabase(Database.MYSQL);
 		adapter.setGenerateDdl(true);
 
 		return adapter;
 	}
-	
+
 	@Bean
 	JpaTransactionManager transactionManager(EntityManagerFactory factory) {
 		return new JpaTransactionManager(factory);
