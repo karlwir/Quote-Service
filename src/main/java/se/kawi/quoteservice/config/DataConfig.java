@@ -41,7 +41,7 @@ public class DataConfig {
 //
 //		return adapter;
 //	}
-
+//
 	@Bean
 	DataSource dataSource() {
 		HikariConfig cfg = new HikariConfig();
