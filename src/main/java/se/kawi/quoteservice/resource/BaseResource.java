@@ -26,8 +26,7 @@ abstract class BaseResource<E extends AbstractEntity, S extends BaseService<E, ?
 		try {
 			return serviceRequest.request();
 		} catch (ServiceException e) {
-			e.printStackTrace();
-			return Response.serverError().build();
+			throw e.getWebApplicationException();
 		}
 	}
 
@@ -45,17 +44,17 @@ abstract class BaseResource<E extends AbstractEntity, S extends BaseService<E, ?
 			return entity == null ? Response.status(404).build() : Response.ok(entity).build();
 		});
 	}
-
-	protected Response delete(@Valid E entity) {
+	
+	protected Response update(@Valid E entity) {
 		return serviceRequest(() -> {
-			service.delete(entity);
+			service.save(entity);
 			return Response.noContent().build();
 		});
 	}
 
-	protected Response update(@Valid E entity) {
+	protected Response delete(@Valid E entity) {
 		return serviceRequest(() -> {
-			service.save(entity);
+			service.delete(entity);
 			return Response.noContent().build();
 		});
 	}

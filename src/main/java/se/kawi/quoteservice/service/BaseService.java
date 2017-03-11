@@ -1,6 +1,9 @@
 package se.kawi.quoteservice.service;
 
+import javax.ws.rs.WebApplicationException;
+
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -23,6 +26,8 @@ public abstract class BaseService<E extends AbstractEntity, R extends PagingAndS
 	protected <T> T execute(Action<T> action) throws ServiceException {
 		try {
 			return action.execute();			
+		} catch (DataIntegrityViolationException e) {
+			throw new ServiceException("Execute failed: " + e.getMessage(), e, new WebApplicationException(403));
 		} catch (DataAccessException e) {
 			throw new ServiceException("Execute failed: " + e.getMessage(), e);
 		}
@@ -31,6 +36,8 @@ public abstract class BaseService<E extends AbstractEntity, R extends PagingAndS
 	protected <T> T transaction(Action<T> action) throws ServiceException {
 		try {
 			return serviceTransaction.execute(() -> action.execute());			
+		} catch (DataIntegrityViolationException e) {
+			throw new ServiceException("Transaction failed: " + e.getMessage(), e, new WebApplicationException(403));
 		} catch (DataAccessException e) {
 			throw new ServiceException("Transaction failed: " + e.getMessage(), e);
 		}
