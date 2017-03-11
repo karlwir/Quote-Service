@@ -46,14 +46,14 @@ abstract class BaseResource<E extends AbstractEntity, S extends BaseService<E, ?
 		});
 	}
 
-	public Response delete(@Valid E entity) {
+	protected Response delete(@Valid E entity) {
 		return serviceRequest(() -> {
 			service.delete(entity);
 			return Response.noContent().build();
 		});
 	}
 
-	public Response update(@Valid E entity) {
+	protected Response update(@Valid E entity) {
 		return serviceRequest(() -> {
 			service.save(entity);
 			return Response.noContent().build();

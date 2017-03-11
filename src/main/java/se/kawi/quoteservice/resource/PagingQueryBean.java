@@ -3,19 +3,21 @@ package se.kawi.quoteservice.resource;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 
-public class PagingQueryBean {
+class PagingQueryBean {
 
 	@QueryParam("size") @DefaultValue("25") private int size;
 	@QueryParam("page") @DefaultValue("0") private int page;
 	@QueryParam("sort") @DefaultValue("asc") private String sort;
 	
-	public int getSize() {
+	int getSize() {
 		return size;
 	}
-	public int getPage() {
+	
+	int getPage() {
 		return page;
 	}
-	public String getSort() {
+	
+	String getSort() {
 		return sort;
 	}
 	

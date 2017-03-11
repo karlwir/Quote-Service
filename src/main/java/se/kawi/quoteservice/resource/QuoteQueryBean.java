@@ -7,11 +7,11 @@ public class QuoteQueryBean extends PagingQueryBean {
 	@QueryParam("content") @DefaultValue("") private String content;
 	@QueryParam("author") @DefaultValue("-1") private String authorId;
 	
-	public String getContent() {
+	String getContent() {
 		return content;
 	}
 	
-	public String getAuthorId() {
+	String getAuthorId() {
 		return authorId;
 	}
 }
