@@ -10,7 +10,7 @@ import se.kawi.quoteservice.model.Author;
 
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {
 
-	@Query("select a from #{#entityName} a where a.firstname like %:fName% and a.lastname like %:lName%")
-	Page<Author> query(Pageable pageable, @Param("fName") String firstname, @Param("lName")String lastname);
+	@Query("select a from #{#entityName} a where a.firstname like %:fName% and a.lastname like %:lName% or a.firstname like %:nQuery% or a.lastname like %:nQuery%")
+	Page<Author> query(Pageable pageable, @Param("fName") String firstname, @Param("lName")String lastname, @Param("nQuery")String nameQuery);
 
 }

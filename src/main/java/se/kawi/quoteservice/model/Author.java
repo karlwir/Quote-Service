@@ -21,6 +21,8 @@ public class Author extends AbstractEntity {
 	@NotEmpty
 	private String lastname;
 	
+	private String fullname;
+	
 	@OneToMany(mappedBy = "author")
 	private List<Quote> quotes;
 	
@@ -29,6 +31,7 @@ public class Author extends AbstractEntity {
 	public Author(String firstname, String lastname) {
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.fullname = firstname + " " + lastname;
 	}
 	
 	public String getFirstname() {
@@ -39,11 +42,21 @@ public class Author extends AbstractEntity {
 		return lastname;
 	}
 	
+	public String getFullname() {
+		return fullname;
+	}
+	
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
+		updateFullname();
 	}
 	
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+		updateFullname();
+	}
+	
+	private void updateFullname() {
+		this.fullname = firstname + " " + lastname;
 	}
 }

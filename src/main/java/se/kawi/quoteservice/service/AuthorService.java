@@ -16,7 +16,7 @@ public class AuthorService extends BaseService<Author, AuthorRepository> {
 		super(authorRepository, serviceTransaction);
 	}
 
-	public List<Author> query(int page, int size, String sort, String firstname, String lastname) throws ServiceException {
-		return execute(() -> repository.query(createPageRequest(page, size, sort), firstname, lastname)).getContent();
+	public List<Author> query(int page, int size, String sort, String firstname, String lastname, String namequery) throws ServiceException {
+		return execute(() -> repository.query(createPageRequest(page, size, sort), firstname, lastname, namequery)).getContent();
 	}
 }
