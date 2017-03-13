@@ -3,9 +3,9 @@ package se.kawi.quoteservice.resource;
 import java.net.URI;
 
 import javax.validation.Valid;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 import se.kawi.quoteservice.model.AbstractEntity;
 import se.kawi.quoteservice.service.BaseService;
